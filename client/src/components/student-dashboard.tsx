@@ -8,6 +8,7 @@ import { api, type Student, type Transaction } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { CopyableAccountNumber } from "@/components/copyable-account-number";
 
 interface StudentDashboardProps {
   studentId: string;
@@ -75,7 +76,7 @@ export function StudentDashboard({ studentId }: StudentDashboardProps) {
             <div className="flex items-center justify-between">
               <div className="min-w-0 flex-1">
                 <p className="text-xs sm:text-sm text-muted-foreground mb-1">Account Number</p>
-                <p className="text-sm sm:text-lg font-bold font-mono break-all">{student.accountNumber}</p>
+                <CopyableAccountNumber accountNumber={student.accountNumber} />
               </div>
               <Hash className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0 ml-2" />
             </div>

@@ -14,6 +14,7 @@ import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EditAccountModal } from "@/components/edit-account-modal";
+import { CopyableAccountNumber } from "@/components/copyable-account-number";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -283,9 +284,10 @@ function StudentTableRow({ student, onEdit }: { student: Student; onEdit: () => 
         </div>
       </td>
       <td className="px-4 py-4">
-        <code className="text-sm font-mono bg-muted px-2 py-1 rounded">
-          {student.accountNumber}
-        </code>
+        <CopyableAccountNumber 
+          accountNumber={student.accountNumber} 
+          variant="code"
+        />
       </td>
       <td className="px-4 py-4 text-right font-medium">
         ${student.balance}
