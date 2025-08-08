@@ -2,15 +2,21 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Hash, Wallet, TrendingUp, TrendingDown, User, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Hash, Wallet, TrendingUp, TrendingDown, User, Clock, LogOut } from "lucide-react";
 import { api, type Student, type Transaction } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/lib/auth";
+import { useToast } from "@/hooks/use-toast";
 
 interface StudentDashboardProps {
   studentId: string;
 }
 
 export function StudentDashboard({ studentId }: StudentDashboardProps) {
+  const { setCurrentStudent } = useAuth();
+  const { toast } = useToast();
+  
   const { data: student, isLoading: studentLoading } = useQuery({
     queryKey: ['/api/students', studentId],
     queryFn: () => api.getStudent(studentId),
@@ -41,8 +47,27 @@ export function StudentDashboard({ studentId }: StudentDashboardProps) {
     ?.filter(t => t.type === 'withdrawal')
     .reduce((sum, t) => sum + parseFloat(t.amount), 0) || 0;
 
+  const handleLogout = () => {
+    setCurrentStudent('');
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
+  };
+
   return (
     <div className="space-y-6">
+      {/* Header with Logout */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Welcome back, {student?.name}!</h1>
+          <p className="text-muted-foreground">Here's your account overview</p>
+        </div>
+        <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
+          <LogOut className="w-4 h-4" />
+          Logout
+        </Button>
+      </div>
       {/* Account Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>

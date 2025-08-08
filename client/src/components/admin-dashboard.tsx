@@ -13,7 +13,7 @@ import { api, type Student, type Analytics } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import { EditAccountModal } from "./edit-account-modal";
+import { EditAccountModal } from "@/components/edit-account-modal";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -84,6 +84,18 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   return (
     <div className="space-y-6">
+      {/* Header with Logout */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
+          <p className="text-muted-foreground">Manage student accounts and banking operations</p>
+        </div>
+        <Button variant="destructive" onClick={handleLogout} className="flex items-center gap-2">
+          <LogOut className="w-4 h-4" />
+          Logout
+        </Button>
+      </div>
+      
       {/* Bank Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="banking-gradient text-white border-0">
@@ -209,20 +221,12 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         </CardContent>
       </Card>
 
-      {/* Logout Button */}
-      <div className="text-center">
-        <Button variant="destructive" onClick={handleLogout}>
-          <LogOut className="w-4 h-4 mr-2" />
-          Logout
-        </Button>
-      </div>
-
       {/* Edit Modal */}
       {editingStudent && (
         <EditAccountModal
           student={editingStudent}
           open={!!editingStudent}
-          onOpenChange={(open) => !open && setEditingStudent(null)}
+          onOpenChange={(open: boolean) => !open && setEditingStudent(null)}
         />
       )}
     </div>
