@@ -104,6 +104,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.delete("/api/students/:id", async (req, res) => {
+    try {
+      const student = await storage.getStudent(req.params.id);
+      if (!student) {
+        return res.status(404).json({ message: "Student not found" });
+      }
+      
+      await storage.deleteStudent(req.params.id);
+      res.json({ message: "Student account deleted successfully" });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
   // Transaction routes
   app.get("/api/students/:id/transactions", async (req, res) => {
     try {

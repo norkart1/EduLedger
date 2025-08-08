@@ -9,6 +9,7 @@ export interface IStorage {
   getStudentByAccountNumber(accountNumber: string): Promise<Student | undefined>;
   createStudent(student: InsertStudent): Promise<Student>;
   updateStudentBalance(id: string, newBalance: string): Promise<Student>;
+  deleteStudent(id: string): Promise<void>;
   getAllStudents(): Promise<Student[]>;
   
   // Transaction operations
@@ -55,6 +56,14 @@ export class DatabaseStorage implements IStorage {
       .where(eq(students.id, id))
       .returning();
     return student;
+  }
+
+  async deleteStudent(id: string): Promise<void> {
+    // First delete all transactions for this student
+    await db.delete(transactions).where(eq(transactions.studentId, id));
+    
+    // Then delete the student
+    await db.delete(students).where(eq(students.id, id));
   }
 
   async getAllStudents(): Promise<Student[]> {

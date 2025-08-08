@@ -70,6 +70,11 @@ export const api = {
     return response.json();
   },
 
+  async deleteStudent(studentId: string): Promise<{ message: string }> {
+    const response = await apiRequest('DELETE', `/api/students/${studentId}`);
+    return response.json();
+  },
+
   // Admin operations
   async adminLogin(credentials: { username: string; password: string }) {
     const response = await apiRequest('POST', '/api/admin/login', credentials);

@@ -1,13 +1,23 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { 
   Building2, Users, TrendingUp, FileText, Download, 
-  Edit, Plus, Minus, Search, LogOut, Loader2 
+  Edit, Plus, Minus, Search, LogOut, Loader2, Trash2 
 } from "lucide-react";
 import { api, type Student, type Analytics } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -15,6 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EditAccountModal } from "@/components/edit-account-modal";
 import { CopyableAccountNumber } from "@/components/copyable-account-number";
+import { queryClient } from "@/lib/queryClient";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -235,7 +246,27 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 }
 
 function StudentTableRow({ student, onEdit }: { student: Student; onEdit: () => void }) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
+
+  const deleteMutation = useMutation({
+    mutationFn: (studentId: string) => api.deleteStudent(studentId),
+    onSuccess: () => {
+      toast({
+        title: "Account Deleted",
+        description: "Student account has been permanently deleted",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/students'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/analytics'] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Delete Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleQuickTransaction = async (type: 'deposit' | 'withdrawal') => {
     const amount = prompt(`Enter ${type} amount:`);
@@ -265,10 +296,16 @@ function StudentTableRow({ student, onEdit }: { student: Student; onEdit: () => 
     }
   };
 
+  const handleDeleteAccount = () => {
+    deleteMutation.mutate(student.id);
+    setDeleteDialogOpen(false);
+  };
+
   return (
-    <tr className="hover:bg-accent/50 transition-colors">
-      <td className="px-4 py-4">
-        <div className="flex items-center gap-3">
+    <>
+      <tr className="hover:bg-accent/50 transition-colors">
+        <td className="px-4 py-4">
+          <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8">
             <AvatarImage src={student.profileImage || undefined} alt={student.name} />
             <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
@@ -324,9 +361,53 @@ function StudentTableRow({ student, onEdit }: { student: Student; onEdit: () => 
           >
             <Minus className="h-4 w-4" />
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setDeleteDialogOpen(true)}
+            className="h-8 w-8 p-0 text-destructive hover:text-destructive/80"
+            title="Delete Account"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
         </div>
       </td>
     </tr>
+    
+    <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Student Account</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to permanently delete <strong>{student.name}</strong>'s account?
+            <br /><br />
+            <strong>Account:</strong> {student.accountNumber}
+            <br />
+            <strong>Current Balance:</strong> ${student.balance}
+            <br /><br />
+            This action cannot be undone. All transaction history will be permanently deleted.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction 
+            onClick={handleDeleteAccount}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            disabled={deleteMutation.isPending}
+          >
+            {deleteMutation.isPending ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete Account"
+            )}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }
 
