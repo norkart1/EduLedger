@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(220 10% 15%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(220 10% 15%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(220 10% 15%);
+  --primary: hsl(210 100% 44%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(210 5% 96%);
+  --secondary-foreground: hsl(220 10% 15%);
+  --muted: hsl(210 5% 96%);
+  --muted-foreground: hsl(220 5% 46%);
+  --accent: hsl(210 5% 96%);
+  --accent-foreground: hsl(220 10% 15%);
+  --destructive: hsl(4 84% 54%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(220 13% 91%);
+  --input: hsl(220 13% 91%);
+  --ring: hsl(210 100% 44%);
+  --success: hsl(122 39% 49%);
+  --success-foreground: hsl(0 0% 100%);
+  --error: hsl(4 84% 54%);
+  --error-foreground: hsl(0 0% 100%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(220 13% 8%);
+  --foreground: hsl(220 9% 92%);
+  --card: hsl(220 10% 10%);
+  --card-foreground: hsl(220 9% 92%);
+  --popover: hsl(220 10% 10%);
+  --popover-foreground: hsl(220 9% 92%);
+  --primary: hsl(210 100% 55%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(220 10% 15%);
+  --secondary-foreground: hsl(220 9% 92%);
+  --muted: hsl(220 10% 15%);
+  --muted-foreground: hsl(220 5% 65%);
+  --accent: hsl(220 10% 15%);
+  --accent-foreground: hsl(220 9% 92%);
+  --destructive: hsl(4 84% 54%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(220 10% 20%);
+  --input: hsl(220 10% 20%);
+  --ring: hsl(210 100% 55%);
+  --success: hsl(122 39% 49%);
+  --success-foreground: hsl(0 0% 100%);
+  --error: hsl(4 84% 54%);
+  --error-foreground: hsl(0 0% 100%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.banking-gradient {
+  background: linear-gradient(135deg, hsl(210 100% 44%) 0%, hsl(210 100% 38%) 100%);
+}
+
+.dark .banking-gradient {
+  background: linear-gradient(135deg, hsl(210 100% 55%) 0%, hsl(210 100% 48%) 100%);
+}
+
+.nav-tab {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.nav-tab.active {
+  @apply bg-primary text-primary-foreground border-primary;
+}
+
+.nav-tab:hover:not(.active) {
+  @apply bg-primary text-primary-foreground opacity-80;
+}
+
+.transaction-deposit {
+  @apply text-success bg-success text-success-foreground;
+}
+
+.transaction-withdrawal {
+  @apply text-error bg-error text-error-foreground;
+}
