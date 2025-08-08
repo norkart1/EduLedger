@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack student banking management system built with React, Express.js, PostgreSQL, and TypeScript. The application provides two main interfaces: a student portal for account registration and balance viewing, and an admin portal for managing student accounts, processing transactions, and generating reports. The system handles basic banking operations including deposits, withdrawals, and transaction history tracking.
+This is a full-stack student banking management system built with React, Express.js, PostgreSQL, and TypeScript. The application provides two main intvgvgggerfaces: a student portal for account registration and balance viewing, and an admin portal for managing student accounts, processing transactions, and generating reports. The system handles basic banking operations including deposits, withdrawals, and transaction history tracking.
 
 ## User Preferences
 
