@@ -83,21 +83,21 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header with Logout */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage student accounts and banking operations</p>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">Admin Dashboard</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Manage student accounts and banking operations</p>
         </div>
-        <Button variant="destructive" onClick={handleLogout} className="flex items-center gap-2">
+        <Button variant="destructive" onClick={handleLogout} className="flex items-center gap-2 w-fit">
           <LogOut className="w-4 h-4" />
-          Logout
+          <span className="hidden sm:inline">Logout</span>
         </Button>
       </div>
       
       {/* Bank Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <Card className="banking-gradient text-white border-0">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap gap-4">
+      <div className="grid grid-cols-2 lg:flex lg:flex-wrap gap-2 sm:gap-4">
         <Button 
           onClick={() => handleReportDownload('monthly', 'pdf')}
           className="bg-success hover:bg-success/90 text-success-foreground"
@@ -175,13 +175,13 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               <Users className="h-5 w-5" />
               Account Management
             </CardTitle>
-            <div className="relative">
+            <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search accounts..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 w-64"
+                className="pl-10 w-full"
               />
             </div>
           </div>
@@ -189,7 +189,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <CardContent>
           <div className="rounded-lg border overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[600px]">
                 <thead className="bg-muted/50">
                   <tr className="text-left">
                     <th className="px-4 py-3 text-sm font-medium text-muted-foreground">Student</th>

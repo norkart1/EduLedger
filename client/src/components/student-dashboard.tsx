@@ -56,64 +56,64 @@ export function StudentDashboard({ studentId }: StudentDashboardProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header with Logout */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Welcome back, {student?.name}!</h1>
-          <p className="text-muted-foreground">Here's your account overview</p>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">Welcome back, {student?.name}!</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Here's your account overview</p>
         </div>
-        <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
+        <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2 w-fit">
           <LogOut className="w-4 h-4" />
-          Logout
+          <span className="hidden sm:inline">Logout</span>
         </Button>
       </div>
       {/* Account Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Account Number</p>
-                <p className="text-lg font-bold font-mono">{student.accountNumber}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Account Number</p>
+                <p className="text-sm sm:text-lg font-bold font-mono break-all">{student.accountNumber}</p>
               </div>
-              <Hash className="h-6 w-6 text-primary" />
+              <Hash className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0 ml-2" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Current Balance</p>
-                <p className="text-2xl font-bold text-success">${student.balance}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Current Balance</p>
+                <p className="text-lg sm:text-2xl font-bold text-success">${student.balance}</p>
               </div>
-              <Wallet className="h-6 w-6 text-success" />
+              <Wallet className="h-5 w-5 sm:h-6 sm:w-6 text-success flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Total Deposits</p>
-                <p className="text-xl font-bold text-primary">${totalDeposits.toFixed(2)}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Total Deposits</p>
+                <p className="text-base sm:text-xl font-bold text-primary">${totalDeposits.toFixed(2)}</p>
               </div>
-              <TrendingUp className="h-6 w-6 text-primary" />
+              <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Total Withdrawals</p>
-                <p className="text-xl font-bold text-destructive">${totalWithdrawals.toFixed(2)}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-1">Total Withdrawals</p>
+                <p className="text-base sm:text-xl font-bold text-destructive">${totalWithdrawals.toFixed(2)}</p>
               </div>
-              <TrendingDown className="h-6 w-6 text-destructive" />
+              <TrendingDown className="h-5 w-5 sm:h-6 sm:w-6 text-destructive flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
