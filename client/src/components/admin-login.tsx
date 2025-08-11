@@ -77,7 +77,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
               <Input
                 id="username"
                 {...form.register("username")}
-                placeholder="admin"
+                placeholder=""
                 className="mt-1"
               />
               {form.formState.errors.username && (
@@ -93,7 +93,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                 id="password"
                 type="password"
                 {...form.register("password")}
-                placeholder="123@Admin"
+                placeholder=""
                 className="mt-1"
               />
               {form.formState.errors.password && (
